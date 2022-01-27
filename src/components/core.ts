@@ -1,5 +1,5 @@
 export function generateGrid (size: number, oldGrid?: boolean[][]) : boolean[][] {
-  const result = Array(size).fill(null).map(y => new Array(size).fill(false))
+  const result = Array(size).fill(null).map(() => new Array(size).fill(false))
   if (oldGrid) {
     const oldSize = oldGrid.length
     const diff = (size - oldSize) / 2
@@ -20,7 +20,7 @@ const SIMMETRY = [
 
 export function doLifecycle (grid: boolean[][]): boolean[][] {
   const size = grid.length
-  const newGrid = Array(size).fill(null).map(y => new Array(size).fill(false))
+  const newGrid = Array(size).fill(null).map(() => new Array(size).fill(false))
 
   const isActive = (y: number, x: number) => !grid[y] ? 0 : (grid[y][x] ? 1 : 0)
 
@@ -37,7 +37,7 @@ export function doLifecycle (grid: boolean[][]): boolean[][] {
 
 export function randomSpawn (grid: boolean[][], activeQuota = 0.8) : boolean[][] {
   const size = grid.length
-  const result = Array(size).fill(null).map(y => new Array(size).fill(false))
+  const result = Array(size).fill(null).map(() => new Array(size).fill(false))
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       result[y][x] = grid[y][x] || (Math.random() > activeQuota)
@@ -52,9 +52,9 @@ export function loadPattern (name: string, padding: number, oldGrid?: boolean[][
     .then(m => m.default)
     .then((txt) => {
       console.log(txt)
-      const lines = txt.split('\n').filter(line => line[0] !== '!')
+      const lines = txt.split('\n').filter((line: string) => line[0] !== '!')
       const matrix = lines.map((line: string) => line.split(''))
-      const width = Math.max(...matrix.map(r => r.length))
+      const width = Math.max(...matrix.map((r: boolean[]) => r.length))
       const height = matrix.length
       const size = Math.max(width, height) + (padding * 2)
       const grid = generateGrid(size, oldGrid)
